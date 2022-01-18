@@ -1,16 +1,41 @@
 public void setup() 
 {
-  String[] lines = loadStrings("words.txt");
+  String[] lines = loadStrings("LowellHymn.txt");
   System.out.println("there are " + lines.length + " lines");
   for (int i = 0 ; i < lines.length; i++) 
   {
-    System.out.println(pigLatin(lines[i]));
+    ArrayList<String> lineWords = findWord(lines[i]);
+    for(int j = 0; j < lineWords.size(); j++){
+      print(pigLatin(lineWords.get(j)) + " ");
+    }
+    print(",");
+    println();
   }
+  println();
+
+  String[] words = loadStrings("words.txt");
+  System.out.println("there are " + words.length + " lines");
+  for (int j = 0; j < words.length; j++) 
+  {
+    System.out.println(pigLatin(words[j]));
+  }
+}
+public ArrayList<String> findWord(String line){
+  int spaceIndex = -1;
+  ArrayList<String> words = new ArrayList<String>();
+  for(int i = 0; i < line.length(); i++){
+    if(line.substring(i,i+1).equals(" ") || line.substring(i,i+1).equals(",") || line.substring(i,i+1).equals(".")){
+      words.add(line.substring(spaceIndex + 1, i));
+      spaceIndex = i;
+    }
+  }
+  return words;
 }
 public int findFirstVowel(String sWord)
 //precondition: sWord is a valid String of length greater than 0.
 //postcondition: returns the position of the first vowel in sWord.  If there are no vowels, returns -1
 {
+  sWord = sWord.toLowerCase();
   for(int i = 0; i < sWord.length(); i++){
     if(sWord.charAt(i) == 'a' || 
        sWord.charAt(i) == 'e' ||
